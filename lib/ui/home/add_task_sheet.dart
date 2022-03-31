@@ -1,3 +1,6 @@
+import 'package:c5_online_todo/firebase_utils.dart';
+import 'package:c5_online_todo/model/task.dart';
+import 'package:c5_online_todo/ui/ui_utils.dart';
 import 'package:flutter/material.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
@@ -100,6 +103,24 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
     if(formController.currentState?.validate() == true){
       // insert task
       // title,desc
+      Task task = Task(title: title,
+          description: description,
+          date: DateUtils.dateOnly(selectedDate).millisecondsSinceEpoch);
+      showLoading(context, 'loading...',isCancelable: false);
+      addTaskToFirestore(task)
+      .then((value){
+        hideDialog(context);
+        showMessage(context, 'Task was added successfully', 'ok', (){
+          Navigator.pop(context);
+          Navigator.pop(context);
+        },isCancelable: false);
+
+      }).catchError((onError){
+        hideDialog(context);
+        showMessage(context, 'some thing went wrong. try again later', 'ok', (){
+          Navigator.pop(context);
+        });
+      });
     }
   }
 }
