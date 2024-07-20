@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // new sebha test
   runApp(MyApplication());
 }
 class MyApplication extends StatelessWidget{
